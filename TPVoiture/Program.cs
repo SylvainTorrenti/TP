@@ -43,6 +43,7 @@ Car1.Owner = Person1;
 Car2.Owner = Person1;
 #endregion
 
+#region Method
 //Display of the Car1
 Car1.Print();
 Console.WriteLine();
@@ -50,6 +51,7 @@ Console.WriteLine();
 Car2.Print();
 Console.WriteLine();
 //Display of the person1
-Person1.Print();
+Person1.Print(); 
+#endregion
 
 
