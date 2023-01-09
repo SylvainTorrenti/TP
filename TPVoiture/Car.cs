@@ -32,7 +32,7 @@ namespace TPVoiture
         /// <summary>
         /// First date when the car has been release
         /// </summary>
-        public DateTime OriginalInServiceDate;
+        public DateOnly OriginalInServiceDate;
         /// <summary>
         /// Power of the car in horsepower
         /// </summary>
@@ -49,7 +49,12 @@ namespace TPVoiture
 
         public void Print()
         {
-
+            Console.WriteLine($"Marque : {Brand}");
+            Console.WriteLine($"Model : {Model}");
+            Console.WriteLine($"Plaque d'immatricualtion : {Registration}");
+            Console.WriteLine($"Date de mise en service : {OriginalInServiceDate}");
+            Console.WriteLine($"Puissance : {Power}cv");
+            Console.WriteLine($"Kilométrage : {KLM} Km");
         } 
         #endregion
     }

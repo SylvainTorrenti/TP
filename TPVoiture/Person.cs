@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +37,9 @@ namespace TPVoiture
 
         public void Print()
         {
-
+            Console.WriteLine($"Nom : {Name}");
+            Console.WriteLine($"Prenom : {FirstName}");
+            Console.WriteLine($"Age : {Age}");
         } 
         #endregion
     }
