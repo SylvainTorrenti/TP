@@ -20,15 +20,27 @@ namespace TPVoiture
         private List<Car> _Cars = new List<Car>();
         #endregion
         #region Get & Set Name
+        /// <summary>
+        /// Name of Person
+        /// </summary>
         public string Name { get => _Name; set => _Name = value; }
         #endregion
         #region Get & Set FirstName
+        /// <summary>
+        /// FirstName of Person
+        /// </summary>
         public string FirstName { get => _FirstName; set => _FirstName = value; }
         #endregion
         #region Get & Set Age
+        /// <summary>
+        /// Age of Person
+        /// </summary>
         public int Age { get => _Age; set => _Age = value; }
         #endregion
         #region Get & Set List<Car>
+        /// <summary>
+        /// List<Car> of Person
+        /// </summary>
         internal List<Car> Cars { get => _Cars; set => _Cars = value; } 
         #endregion
         #region Methode
