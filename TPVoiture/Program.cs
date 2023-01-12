@@ -4,29 +4,29 @@ using TPVoiture;
 #region First car
 //Created first car
 Car Car1 = new Car();
-Car1.SetBrand("Audi");
-Car1.SetModel("TT");
-Car1.SetRegistration("AV48CE");
-Car1.SetOriginalInServiceDate(new DateOnly(2012, 2, 21));
-Car1.SetPower(211);
-Car1.SetKLM(15000);
+Car1.Brand = "Audi";
+Car1.Model = "TT";
+Car1.Registration = "AV48CE";
+Car1.OriginalInServiceDate = new DateOnly(2012, 2, 21);
+Car1.Power = 211;
+Car1.KLM = 15000;
 #endregion
 #region Second car
 //Created second car
 Car Car2 = new Car();
-Car2.SetBrand("BMW");
-Car2.SetModel("X5");
-Car2.SetRegistration("FH55EE");
-Car2.SetOriginalInServiceDate(new DateOnly(2009, 11, 10));
-Car2.SetPower(235);
-Car2.SetKLM(85000);
+Car2.Brand = "BMW";
+Car2.Model = "X5";
+Car2.Registration = "FH55EE";
+Car2.OriginalInServiceDate = new DateOnly(2009, 11, 10);
+Car2.Power = 235;
+Car2.KLM = 85000;
 #endregion
 #region First Person
 //Created Person
 Person Person1 = new Person();
-Person1.SetName("Doe");
-Person1.SetFirstName("John");
-Person1.SetAge(54);
+Person1.Name = "Doe";
+Person1.FirstName = "John";
+Person1.Age = 54;
 #endregion
 #region Person1's car
 //Add car to Person1

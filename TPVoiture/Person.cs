@@ -14,76 +14,22 @@ namespace TPVoiture
     internal class Person
     {
         #region attributes
-        /// <summary>
-        /// Name of the person
-        /// </summary>
-        private string Name;
-        /// <summary>
-        /// First name of the person
-        /// </summary>
-        private string FirstName;
-        /// <summary>
-        /// Age of the person
-        /// </summary>
-        private int Age;
-        /// <summary>
-        /// person’s car list
-        /// </summary>
-        private List<Car> Cars = new List<Car>();
+        private string _Name;
+        private string _FirstName;
+        private int _Age;
+        private List<Car> _Cars = new List<Car>();
         #endregion
         #region Get & Set Name
-        /// <summary>
-        /// Get Name
-        /// </summary>
-        /// <returns>Name</returns>
-        public string GetName()
-        {
-            return Name;
-        }
-        /// <summary>
-        /// Set Name
-        /// </summary>
-        /// <param name="Name">Name</param>
-        public void SetName(string Name)
-        {
-            this.Name = Name;
-        }
+        public string Name { get => _Name; set => _Name = value; }
         #endregion
         #region Get & Set FirstName
-        /// <summary>
-        /// Get FirstName
-        /// </summary>
-        /// <returns>FirstName</returns>
-        public string GetFirstName()
-        {
-            return FirstName;
-        }
-        /// <summary>
-        /// Set FirstName
-        /// </summary>
-        /// <param name="FirstName">FirstName</param>
-        public void SetFirstName(string FirstName)
-        {
-            this.FirstName = FirstName;
-        }
+        public string FirstName { get => _FirstName; set => _FirstName = value; }
         #endregion
         #region Get & Set Age
-        /// <summary>
-        /// Get Age
-        /// </summary>
-        /// <returns>Age</returns>
-        public int GetAge()
-        {
-            return Age;
-        }
-        /// <summary>
-        /// Set Age
-        /// </summary>
-        /// <param name="Age">Age</param>
-        public void SetAge(int Age)
-        {
-            this.Age = Age;
-        }
+        public int Age { get => _Age; set => _Age = value; }
+        #endregion
+        #region Get & Set List<Car>
+        internal List<Car> Cars { get => _Cars; set => _Cars = value; } 
         #endregion
         #region Methode
         /// <summary>
