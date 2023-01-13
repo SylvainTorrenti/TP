@@ -12,6 +12,7 @@ namespace TPVoiture
     internal class Car
     {
         #region Attributes
+        private static List<string> Registrations = new List<string>();
         private string _Registration;
         private string _Model;
         private string _Brand;
@@ -19,6 +20,25 @@ namespace TPVoiture
         private DateOnly _OriginalInServiceDate;
         private int _Power;
         private Person? _Owner; // "?" signifie que cet attribut peut être null
+        #endregion
+        #region Constructor
+        public Car(string registration, string model, string brand, int kLM, int power)
+        {         
+            if (Registrations.Contains(registration))
+            {
+                Registration = "";
+            }
+            else
+            {
+                Registration = registration;
+            }
+            Registrations.Add(registration);
+            //Registration = registration;
+            Model = model;
+            Brand = brand;
+            KLM = kLM;
+            Power = power;
+        }
         #endregion
         #region Get & Set Registration
         /// <summary>
@@ -60,7 +80,7 @@ namespace TPVoiture
         /// <summary>
         /// Owner of car
         /// </summary>
-        internal Person? Owner { get => _Owner; set => _Owner = value; } 
+        internal Person? Owner { get => _Owner; private set => _Owner = value; }
         #endregion
         #region Methode
         /// <summary>
@@ -75,6 +95,7 @@ namespace TPVoiture
             Console.WriteLine($"Puissance : {Power}cv");
             Console.WriteLine($"Kilométrage : {KLM} Km");
             Console.Write($"Proprietaire : {Owner}");
+            Console.WriteLine();
         }
         /// <summary>
         /// method for displaying Car information without owner
@@ -103,7 +124,8 @@ namespace TPVoiture
         public void RemoveOwner()
         {
             Owner = null;
-        }       
+        }
         #endregion
+        
     }
 }

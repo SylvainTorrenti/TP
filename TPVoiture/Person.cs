@@ -14,34 +14,52 @@ namespace TPVoiture
     internal class Person
     {
         #region attributes
-        private string _Name;
-        private string _FirstName;
-        private int _Age;
+        private static int _cptInstance = 0;
+        private static List<int> _Ages = new List<int>();
+        private string _name;
+        private string _firstName;
+        private int _age;
         private List<Car> _Cars = new List<Car>();
+        #endregion
+        #region Constructor
+        public Person(string name, string firstName, int age)
+        {
+            CptInstance++;
+            _name = name;
+            _firstName = firstName;
+            _age = age;
+            _Ages.Add(age);
+        }
         #endregion
         #region Get & Set Name
         /// <summary>
         /// Name of Person
         /// </summary>
-        public string Name { get => _Name; set => _Name = value; }
+        public string Name { get => _name; set => _name = value; }
         #endregion
         #region Get & Set FirstName
         /// <summary>
         /// FirstName of Person
         /// </summary>
-        public string FirstName { get => _FirstName; set => _FirstName = value; }
+        public string FirstName { get => _firstName; set => _firstName = value; }
         #endregion
         #region Get & Set Age
         /// <summary>
         /// Age of Person
         /// </summary>
-        public int Age { get => _Age; set => _Age = value; }
+        public int Age { get => _age; set => _age = value; }
         #endregion
         #region Get & Set List<Car>
         /// <summary>
         /// List<Car> of Person
         /// </summary>
-        internal List<Car> Cars { get => _Cars; set => _Cars = value; } 
+        internal List<Car> Cars { get => _Cars; set => _Cars = value; }
+        #endregion
+        #region Get & Set CptInstance
+        public static int CptInstance { get => _cptInstance; private set => _cptInstance = value; }
+        #endregion
+        #region Get & Set List<int> Ages1
+        private static List<int> Ages { get => _Ages; set => _Ages = value; } 
         #endregion
         #region Methode
         /// <summary>
@@ -52,15 +70,23 @@ namespace TPVoiture
             Console.WriteLine($"Nom : {Name}");
             Console.WriteLine($"Prenom : {FirstName}");
             Console.WriteLine($"Age : {Age}");
-            Console.WriteLine("Voitures:");
-            Console.WriteLine("");
-            for (int i = 0; i < this.Cars.Count; i++)
+            if (Cars.Count <= 0)
             {
-                this.Cars.ElementAt(i).PrintWithoutOwner();
-                Console.WriteLine("");
-                Console.WriteLine("");
+                Console.WriteLine("Cette personne ne posséde pas de voiture.");
+                Console.WriteLine();
             }
-            
+            else
+            {
+                Console.WriteLine("Liste des Voitures:");
+                Console.WriteLine("");
+                for (int i = 0; i < this.Cars.Count; i++)
+                {
+                    Cars.ElementAt(i).PrintWithoutOwner();
+                    Console.WriteLine("");
+                    Console.WriteLine("");
+                }
+            }
+
         }
         /// <summary>
         /// Method to add car
@@ -86,8 +112,22 @@ namespace TPVoiture
         {
             return Name;
         }
+        /// <summary>
+        /// Calculate average age
+        /// </summary>
+        /// <returns></returns>
+        public static double AverageAges()
+        {
+            return (Ages.Count > 0) ? Ages.Average() : 0.0d;
+        }
+        /// <summary>
+        /// Get the number of instance
+        /// </summary>
+        /// <returns></returns>
+        public static int GetInstance()
+        {
+            return CptInstance;
+        }
         #endregion
-
-
     }
 }

@@ -2,31 +2,25 @@
 using TPVoiture;
 
 #region First car
-//Created first car
-Car Car1 = new Car();
-Car1.Brand = "Audi";
-Car1.Model = "TT";
-Car1.Registration = "AV48CE";
-Car1.OriginalInServiceDate = new DateOnly(2012, 2, 21);
-Car1.Power = 211;
-Car1.KLM = 15000;
+//Creat first car
+Car Car1 = new Car("AV48CE", "TT", "Audi", 15000, 211);
 #endregion
 #region Second car
-//Created second car
-Car Car2 = new Car();
-Car2.Brand = "BMW";
-Car2.Model = "X5";
-Car2.Registration = "FH55EE";
-Car2.OriginalInServiceDate = new DateOnly(2009, 11, 10);
-Car2.Power = 235;
-Car2.KLM = 85000;
+//Creat second car
+Car Car2 = new Car("FH55EE", "X5", "BMW", 85000, 235);
+#endregion
+#region Third car
+Car Car3 = new Car("FH55EE", "X5", "BMW", 85000, 235); 
 #endregion
 #region First Person
-//Created Person
-Person Person1 = new Person();
-Person1.Name = "Doe";
-Person1.FirstName = "John";
-Person1.Age = 54;
+//Creat Person
+Person Person1 = new Person("Doe", "John", 54);
+#endregion
+#region Second person
+Person Person2 = new Person("Toto", "Tata", 32);
+#endregion
+#region Third Person
+Person Person3 = new Person("Titi", "Tutu", 45);
 #endregion
 #region Person1's car
 //Add car to Person1
@@ -41,14 +35,19 @@ Car2.AddOwner(Person1);
 //Car1.RemoveOwner();
 #endregion
 #region Method
-//Display of the Car1
+//Display of Car1
 Car1.Print();
-Console.WriteLine();
-Console.WriteLine();
-//Display of the Car2
+//Display of Car2
 Car2.Print();
-Console.WriteLine();
-Console.WriteLine();
+//Display of Car3
+Car3.Print();   
 //Display of the person1
 Person1.Print();
+//Display of the person2
+Person2.Print();
+//Display of the person3
+Person3.Print();
+Console.WriteLine($"Il y a eu {Person.GetInstance()} personne créées");
+Console.WriteLine();
+Console.WriteLine(Person.AverageAges());
 #endregion
