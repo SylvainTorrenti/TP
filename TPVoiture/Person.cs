@@ -58,7 +58,7 @@ namespace TPVoiture
         #region Get & Set CptInstance
         public static int CptInstance { get => _cptInstance; private set => _cptInstance = value; }
         #endregion
-        #region Get & Set List<int> Ages1
+        #region Get & Set List<int> Ages
         private static List<int> Ages { get => _Ages; set => _Ages = value; } 
         #endregion
         #region Methode
