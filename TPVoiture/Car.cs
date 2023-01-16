@@ -82,7 +82,7 @@ namespace TPVoiture
         /// </summary>
         internal Person? Owner { get => _Owner; private set => _Owner = value; }
         #endregion
-        #region Methode
+        #region Method
         /// <summary>
         /// method for displaying Car information
         /// </summary>
