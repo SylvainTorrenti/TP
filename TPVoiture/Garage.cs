@@ -26,7 +26,7 @@ namespace TPVoiture
         }
         public void AssignMechanic(Mechanic mechanic, Car car)
         {
-            mechanic.Cars.Add(car);
+            mechanic.AddCarMec(car);
         }
         public void Print()
         {
@@ -43,7 +43,7 @@ namespace TPVoiture
             {
                 Console.WriteLine("Liste des Voitures:");
                 Console.WriteLine("");
-                for (int i = 0; i < this.Cars.Count; i++)
+                for (int i = 0; i < Cars.Count; i++)
                 {
                     Cars.ElementAt(i).PrintWithoutOwner();
                     Console.WriteLine("");
@@ -51,11 +51,12 @@ namespace TPVoiture
                 }
             }
         }
-        public void WithdrawCar(Garage garage, Car car, Customer customer)
+        public void WithdrawCar(Garage garage, Car car, Customer customer,Mechanic mechanic)
         {
             if (customer.Cars.Contains(car))
             {
                 garage.Cars.Remove(car);
+                mechanic.RemoveCarMec(car);
             }
             else
             {

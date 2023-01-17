@@ -14,6 +14,14 @@ namespace TPVoiture
         }
         #endregion
         #region Method
+        public void AddCarMec(Car Car)
+        {
+            Cars.Add(Car);
+        }
+        public void RemoveCarMec(Car Car)
+        {
+            Cars.Remove(Car);
+        }
         public void Print()
         {
             Console.WriteLine($"Nom : {Name}");
