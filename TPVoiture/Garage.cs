@@ -51,6 +51,18 @@ namespace TPVoiture
                 }
             }
         }
+        public void WithdrawCar(Garage garage, Car car, Customer customer)
+        {
+            if (customer.Cars.Contains(car))
+            {
+                garage.Cars.Remove(car);
+            }
+            else
+            {
+                Console.WriteLine("La voiture n'appartient pas au client");
+            }
+            
+        }
         #endregion
     }
 }

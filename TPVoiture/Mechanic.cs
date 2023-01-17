@@ -8,12 +8,6 @@ namespace TPVoiture
 {
     internal class Mechanic : Person
     {
-        #region Attribute
-        private List<Car> _Cars = new List<Car>();
-        #endregion
-        #region Get & Set List<Car>
-        internal List<Car> Cars { get => _Cars; set => _Cars = value; }
-        #endregion
         #region Constructor
         public Mechanic(string name, string firstName, int age) : base(name, firstName, age)
         {
@@ -25,15 +19,24 @@ namespace TPVoiture
             Console.WriteLine($"Nom : {Name}");
             Console.WriteLine($"Prenom : {FirstName}");
             Console.WriteLine($"Age : {Age}");
-            Console.WriteLine("Liste des Voitures:");
+            Console.WriteLine("Liste des Voitures en réparation:");
             Console.WriteLine("");
-            for (int i = 0; i < this.Cars.Count; i++)
+            if (Cars.Count <= 0)
             {
-                Cars.ElementAt(i).PrintWithoutOwner();
-                Console.WriteLine("");
-                Console.WriteLine("");
+                Console.WriteLine("Cet garagiste ne répare pas de voiture.");
+                Console.WriteLine();
             }
-        } 
-        #endregion
+            else
+            {
+                for (int i = 0; i < this.Cars.Count; i++)
+                {
+                    Cars.ElementAt(i).PrintWithoutOwner();
+                    Console.WriteLine("");
+                    Console.WriteLine("");
+                }
+            }
+        }
     }
+    #endregion
 }
+

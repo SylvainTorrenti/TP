@@ -8,12 +8,6 @@ namespace TPVoiture
 {
     internal class Customer : Person
     {
-        #region Attribute
-        private List<Car> _Cars = new List<Car>();
-        #endregion
-        #region Get & Set List<Car>
-        internal List<Car> Cars { get => _Cars; set => _Cars = value; }
-        #endregion
         #region Constructor
         public Customer(string name, string firstName, int age) : base(name, firstName, age)
         {
@@ -23,11 +17,7 @@ namespace TPVoiture
         public void AddCar(Car Car)
         {
             Cars.Add(Car);
-        }
-        public void WithdrawCar(Garage garage, Car car)
-        {
-            garage.Cars.Remove(car);
-        }
+        }        
         public void Print()
         {
             Console.WriteLine($"Nom : {Name}");
