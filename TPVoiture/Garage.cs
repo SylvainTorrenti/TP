@@ -10,9 +10,13 @@ namespace TPVoiture
     {
         #region Attribute
         private List<Car> _Cars = new List<Car>();
+        private List<Mechanic> _Mechanics = new List<Mechanic>();
         #endregion
         #region Get & Set List<Car>
         public List<Car> Cars { get => _Cars; set => _Cars = value; }
+        #endregion
+        #region Get & Set List<Mechanic>
+        internal List<Mechanic> Mechanics { get => _Mechanics; set => _Mechanics = value; } 
         #endregion
         #region Constructor
         public Garage(int sIRET, string name) : base(sIRET, name)
@@ -23,6 +27,18 @@ namespace TPVoiture
         public void AddCar(Car Car)
         {
             Cars.Add(Car);
+        }
+        public void RemoveCar(Car Car)
+        {
+            Cars.Remove(Car);
+        }
+        public void AddMechanic(Mechanic mechanic)
+        {
+            Mechanics.Add(mechanic);
+        }
+        public void RemoveMechanic(Mechanic mechanic)
+        {
+            Mechanics.Remove(mechanic);
         }
         public void AssignMechanic(Mechanic mechanic, Car car)
         {
