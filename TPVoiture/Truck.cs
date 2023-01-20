@@ -73,6 +73,11 @@ namespace TPVoiture
             Power = power;
 
         }
+
+        /// <summary>
+        /// Calcul du temps de réparation du camion
+        /// </summary>
+        /// <param name="garagiste"></param>
         public override void ReparationTime(Garagiste garagiste)
         {
             double Time;

@@ -10,17 +10,35 @@ namespace TPVoiture
 {
     internal class Vehicle
     {
+        /// <summary>
+        /// Date de la mise en service
+        /// </summary>
         public DateTime OriginalInServiceDate { get; private set; }
 
+        /// <summary>
+        /// Propriétaire du vehicule
+        /// </summary>
         public Person Owner { get; private set; }
 
+        /// <summary>
+        /// Si le veihicule doit être reparer
+        /// </summary>
         public bool AReparer { get; private set; }
 
+        /// <summary>
+        /// Les dommage du vehicule
+        /// </summary>
         public int Damage { get; set; }
+
         /// <summary>
         /// Liste de toutes les plaques d'immatriculations
         /// </summary>
         private static List<string> Registrations { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Liste des garagiste assigné
+        /// </summary>
+        private List<Garagiste> _garagistAssigne = new List<Garagiste>();
 
         /// <summary>
         /// Récupère la liste des plaques d'immatriculations
@@ -59,10 +77,14 @@ namespace TPVoiture
             }
         }
 
-
-
-
-        private List<Garagiste> _garagistAssigne = new List<Garagiste>();
+        /// <summary>
+        /// Constructeur du vehicule
+        /// </summary>
+        /// <param name="originalInServiceDate"></param>
+        /// <param name="owner"></param>
+        /// <param name="aReparer"></param>
+        /// <param name="registration"></param>
+        /// <param name="damage"></param>
         public Vehicle(DateTime originalInServiceDate, Person owner, bool aReparer, string registration, int damage)
         {
             OriginalInServiceDate = originalInServiceDate;
@@ -72,12 +94,18 @@ namespace TPVoiture
             Damage = damage;
         }
 
-
-
+        /// <summary>
+        /// Methode pour ajouter un garagiste
+        /// </summary>
+        /// <param name="garagiste"></param>
         public void AjouterUnGaragiste(Garagiste garagiste)
         {
             _garagistAssigne.Add(garagiste);
         }
+
+        /// <summary>
+        /// Methode pour afficher la personne en charge de la réparation
+        /// </summary>
         public void AfficherLaPersonneEnCharge()
         {
             for (int i = 0; i < _garagistAssigne.Count; i++)
@@ -85,14 +113,26 @@ namespace TPVoiture
                 Console.WriteLine($"Le Garagiste en charge est : {_garagistAssigne.ElementAt(i).Name} {_garagistAssigne.ElementAt(i).FirstName}");
             }
         }
+
+        /// <summary>
+        /// Methode qui definit que la voiture est réparer
+        /// </summary>
         public void Reparer()
         {
             AReparer = false;
         }
+
+        /// <summary>
+        /// Suppresion de la voiture
+        /// </summary>
         public void Dispose()
         {
             Registrations.Remove(Registration);
         }
+        /// <summary>
+        /// Methode pour calculer le temps de réparation
+        /// </summary>
+        /// <param name="garagiste"></param>
         public virtual void ReparationTime(Garagiste garagiste)
         {
             double Time;
@@ -101,10 +141,7 @@ namespace TPVoiture
                 Time = 1.5 * (2 - garagiste.Skill / 100);
                 Console.WriteLine(Time);
             }
-            
+
         }
-
-
-
     }
 }

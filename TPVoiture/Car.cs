@@ -98,6 +98,11 @@ namespace TPObjet
                 oldOwner.VenteDunVehicule(this);
             }
         }
+
+        /// <summary>
+        /// Calcul du temps de reparation de la voiture
+        /// </summary>
+        /// <param name="garagiste"></param>
         public override void ReparationTime(Garagiste garagiste)
         {
             double Time;

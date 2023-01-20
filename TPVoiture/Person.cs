@@ -108,13 +108,19 @@ namespace TPObjet
             return $"{Name} {FirstName} ({Age} ans)";
         }
 
+        /// <summary>
+        /// Suppression d'un personne
+        /// </summary>
         public void Dispose()
         {
             Ages.Remove(Age);
             CompteurInstance -= 1;
         }
 
-
+        /// <summary>
+        /// Methode pour acquerir un vehicule
+        /// </summary>
+        /// <param name="vehicle"></param>
         public void AcquisitionDunVehicule(Vehicle vehicle)
         {
             if (!_vehicles.Contains(vehicle))
@@ -124,6 +130,10 @@ namespace TPObjet
 
         }
 
+        /// <summary>
+        /// Methode pour vendre un vehicule
+        /// </summary>
+        /// <param name="vehicle"></param>
         public void VenteDunVehicule(Vehicle vehicle)
         {
             if (_vehicles.Contains(vehicle))
