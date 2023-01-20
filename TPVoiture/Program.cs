@@ -1,91 +1,35 @@
-﻿using System.IO;
+﻿using TPObjet;
 using TPVoiture;
 
-#region First car
-//Creat first car
-Car Car1 = new Car("AV48CE", "TT", "Audi", 15000, 211);
-#endregion
-#region Second car
-//Creat second car
-Car Car2 = new Car("FH55EE", "X5", "BMW", 85000, 235);
-#endregion
-#region Third car
-Car Car3 = new Car("FH55EE", "X5", "BMW", 85000, 235);
-#endregion
-//#region First Person
-////Creat Person
-//Person Person1 = new Person("Doe", "John", 54);
-//#endregion
-//#region Second person
-//Person Person2 = new Person("Toto", "Tata", 32);
-//#endregion
-//#region Third Person
-//Person Person3 = new Person("Titi", "Tutu", 45);
-//#endregion
-//#region Person1's car
-////Add car to Person1
-//Person1.AddCar(Car1);
-//Person1.AddCar(Car2);
-////Person1.RemoveCar(Car1);
-//#endregion
-//#region Car's Owner
-//Car1.AddOwner(Person1);
-//Car2.AddOwner(Person1);
-////Remove car from Person1
-////Car1.RemoveOwner();
-//#endregion
-#region Method
-////Display of Car1
-//Car1.Print();
-////Display of Car2
-//Car2.Print();
-////Display of Car3
-//Car3.Print();   
-////Display of the person1
-//Person1.Print();
-////Display of the person2
-//Person2.Print();
-////Display of the person3
-//Person3.Print();
-//Console.WriteLine($"Il y a eu {Person.GetInstance()} personne créées");
-//Console.WriteLine();
-//Console.WriteLine(Person.AverageAges());
-Customer Customer1 = new Customer("Cust", "1", 25);
-Mechanic Mechanic1 = new Mechanic("Mech", "1", 48);
-Company Company1 = new Company(5444, "Mon Entreprise");
-Garage Garage1 = new Garage(6400, "Mon Garage");
-Customer1.AddCar(Car1);
-Customer1.Print();
-Console.WriteLine();
-Console.WriteLine("********************");
-Console.WriteLine();
-Mechanic1.Print();
-Console.WriteLine();
-Console.WriteLine("********************");
-Console.WriteLine();
-Company1.PrintCompany();
-Console.WriteLine();
-Console.WriteLine("********************");
-Console.WriteLine();
-Garage1.AddCar(Car1);
-Console.WriteLine();
-Garage1.Print();
-Console.WriteLine("********************");
-Console.WriteLine();
-Garage1.AssignMechanic(Mechanic1, Car1);
-Mechanic1.Print();
-Console.WriteLine();
-Console.WriteLine();
-Garage1.WithdrawCar(Garage1, Car1, Customer1,Mechanic1);
-Console.WriteLine();
-Console.WriteLine("********************");
-Console.WriteLine();
-Customer1.Print();
-Console.WriteLine();
-Console.WriteLine("********************"); 
-Console.WriteLine();
-Garage1.Print();
+Client client1 = new Client("Doe", "John", 30);
+Vehicle audiTT = new Car("AV48CE", "TT", "Audi", 80000,
+    new DateTime(2012, 2, 21), 211, client1, true,5);
+Car x5 = new Car("FH55EE", "X5", "BMW", 80000,
+    new DateTime(2009, 11, 10), 235, client1, true,3);
+client1.AcquisitionDunVehicule(x5);
+client1.AcquisitionDunVehicule(audiTT);
+Vehicle iveco = new Truck("DV48CE", "Eurocargo", "Iveco", 80000,
+    new DateTime(2012, 2, 21), 211, client1, true, 1);
 
+Client client2 = new Client("Doe", "John", 30);
+Car chevrolet = new Car("AV48CE", "Camaro", "Chevrolet", 80000,
+    new DateTime(2009, 2, 21), 211, client1, false,0);
+Car peugeot = new Car("FH55EE", "208", "Peugeot", 80000,
+    new DateTime(2006, 11, 10), 235, client1, true,5);
+client2.AcquisitionDunVehicule(chevrolet);
+client2.AcquisitionDunVehicule(peugeot);
 
+Garage garage1 = new Garage("8888775244896");
+Garagiste paul = new Garagiste("Dumoulin", "Paul", 42, 1);
+Garagiste didier = new Garagiste("Dubois", "Didier", 38, 3);
 
-#endregion
+garage1.EngagerUnGaragiste(paul);
+garage1.EngagerUnGaragiste(didier);
+
+garage1.RecupererUnVehiculeAReparer(audiTT);
+garage1.AssignerUnVehiculeUnGaragiste(audiTT, didier);
+//didier.ReparationsFinis(audiTT);
+//garage1.RecuperationDeLaVoitureParLeClient(audiTT, client1);
+audiTT.AfficherLaPersonneEnCharge();
+audiTT.ReparationTime(paul);
+iveco.ReparationTime(didier);

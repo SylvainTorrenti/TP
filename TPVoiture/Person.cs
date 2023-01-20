@@ -1,132 +1,135 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TPVoiture;
 
-namespace TPVoiture
+namespace TPObjet
 {
     /// <summary>
-    /// class used to create person
+    /// Représente une personne
     /// </summary>
-    internal class Person
+    internal class Person : IDisposable
     {
-        #region attributes
-        private static int _cptInstance = 0;
-        private static List<int> _Ages = new List<int>();
-        private string _name;
-        private string _firstName;
-        private int _age;
-        private List<Car> _Cars = new List<Car>();
-        #endregion
-        #region Constructor
-        public Person(string name, string firstName, int age)
+
+        /// <summary>
+        /// Liste de voitures personnelles
+        /// </summary>
+        List<Vehicle> _vehicles = new List<Vehicle>();
+
+        /// <summary>
+        /// Nombre d'instances de personne en cours
+        /// </summary>
+        public static int CompteurInstance { get; private set; }
+
+        /// <summary>
+        /// Liste des ages des personnes
+        /// </summary>
+        private static List<int> Ages { get; } = new List<int>();
+
+        /// <summary>
+        /// Récupère une copie de la liste des ages
+        /// </summary>
+        /// <returns>Copie de la liste des ages de toutes les personnes instanciées</returns>
+        public static IEnumerable<int> GetAges()
         {
-            CptInstance++;
-            _name = name;
-            _firstName = firstName;
-            _age = age;
-            _Ages.Add(age);
+            return Ages.ToArray();
+        }
+
+        /// <summary>
+        /// Calcule la moyenne des ages des instances de personnes
+        /// </summary>
+        /// <returns>Renvoie la moyenne des ages</returns>
+        public static double GetAverageAgeStatic()
+        {
+            return Ages.Average();
+        }
+
+        #region Props
+        /// <summary>
+        /// Nom de la personne
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
+        /// Prénom de la personne
+        /// </summary>
+        public string FirstName { get; private set; }
+
+        /// <summary>
+        /// Age de la personne
+        /// </summary>
+        private int _Age;
+        /// <summary>
+        /// Age de la personne
+        /// </summary>
+        public int Age
+        {
+            get { return _Age; }
+            private set
+            {
+                //Infos :(value = nouvelle valeur)
+
+                //Modification de la propriété de classe
+                Ages.Remove(value);
+                Ages.Add(value);
+
+                //Modification de la propriété d'instance
+                _Age = value;
+            }
         }
         #endregion
-        #region Get & Set Name
+
         /// <summary>
-        /// Name of Person
+        /// Constructeur de la classe personne
         /// </summary>
-        public string Name { get => _name; set => _name = value; }
-        #endregion
-        #region Get & Set FirstName
-        /// <summary>
-        /// FirstName of Person
-        /// </summary>
-        public string FirstName { get => _firstName; set => _firstName = value; }
-        #endregion
-        #region Get & Set Age
-        /// <summary>
-        /// Age of Person
-        /// </summary>
-        public int Age { get => _age; set => _age = value; }
-        #endregion
-        #region Get & Set List<Car>
-        /// <summary>
-        /// List<Car> of Person
-        /// </summary>
-        internal List<Car> Cars { get => _Cars; set => _Cars = value; }
-        #endregion
-        #region Get & Set CptInstance
-        public static int CptInstance { get => _cptInstance; private set => _cptInstance = value; }
-        #endregion
-        #region Get & Set List<int> Ages
-        private static List<int> Ages { get => _Ages; set => _Ages = value; } 
-        #endregion
-        #region Methode
-        /// <summary>
-        /// method for displaying Person information
-        /// </summary>
-        public void Print()
+        /// <param name="name">Nom de la nouvelle personne</param>
+        /// <param name="firstName">Prénom de la nouvelle personne</param>
+        /// <param name="age">Age de la nouvelle personne</param>
+        public Person(string name, string firstName, int age)
         {
-            Console.WriteLine($"Nom : {Name}");
-            Console.WriteLine($"Prenom : {FirstName}");
-            Console.WriteLine($"Age : {Age}");
-            if (Cars.Count <= 0)
+            Name = name;
+            FirstName = firstName;
+            Ages.Add(age);
+            Age = age;
+
+            //CompteurInstance = CompteurInstance + 1;
+            CompteurInstance += 1;
+        }
+
+        #region Méthodes
+        /// <summary>
+        /// Récupère toutes les informations liées à une personne
+        /// </summary>
+        /// <returns>Renvoie une chaîne de caractère qui rassemble toutes les informations de la personne</returns>
+        public string Print()
+        {
+            return $"{Name} {FirstName} ({Age} ans)";
+        }
+
+        public void Dispose()
+        {
+            Ages.Remove(Age);
+            CompteurInstance -= 1;
+        }
+
+
+        public void AcquisitionDunVehicule(Vehicle vehicle)
+        {
+            if (!_vehicles.Contains(vehicle))
             {
-                Console.WriteLine("Cette personne ne posséde pas de voiture.");
-                Console.WriteLine();
-            }
-            else
-            {
-                Console.WriteLine("Liste des Voitures:");
-                Console.WriteLine("");
-                for (int i = 0; i < this.Cars.Count; i++)
-                {
-                    Cars.ElementAt(i).PrintWithoutOwner();
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                }
+                _vehicles.Add(vehicle);
             }
 
         }
-        /// <summary>
-        /// Method to add car
-        /// </summary>
-        /// <param name="Car">Add car to a Person</param>
-        public void AddCar(Car Car)
+
+        public void VenteDunVehicule(Vehicle vehicle)
         {
-            Cars.Add(Car);
-        }
-        /// <summary>
-        /// Method to remove car
-        /// </summary>
-        /// <param name="car">Remove car from a Person</param>
-        public void RemoveCar(Car car)
-        {
-            Cars.Remove(car);
-        }
-        /// <summary>
-        /// Surcharge methode ToString
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return Name;
-        }
-        /// <summary>
-        /// Calculate average age
-        /// </summary>
-        /// <returns></returns>
-        public static double AverageAges()
-        {
-            return (Ages.Count > 0) ? Ages.Average() : 0.0d;
-        }
-        /// <summary>
-        /// Get the number of instance
-        /// </summary>
-        /// <returns></returns>
-        public static int GetInstance()
-        {
-            return CptInstance;
+            if (_vehicles.Contains(vehicle))
+            {
+                _vehicles.Remove(vehicle);
+            }
         }
         #endregion
     }

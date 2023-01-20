@@ -3,83 +3,125 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPVoiture;
 
-namespace TPVoiture
+namespace TPObjet
 {
-    internal class Garage : Company
+    /// <summary>
+    /// Représente un Garage
+    /// </summary>
+    internal class Garage : Entreprise
     {
-        #region Attribute
-        private List<Car> _Cars = new List<Car>();
-        private List<Mechanic> _Mechanics = new List<Mechanic>();
-        #endregion
-        #region Get & Set List<Car>
-        public List<Car> Cars { get => _Cars; set => _Cars = value; }
-        #endregion
-        #region Get & Set List<Mechanic>
-        internal List<Mechanic> Mechanics { get => _Mechanics; set => _Mechanics = value; } 
-        #endregion
-        #region Constructor
-        public Garage(int sIRET, string name) : base(sIRET, name)
+        /// <summary>
+        /// Représente la liste des véhicules dans le garage
+        /// </summary>
+        private List<Vehicle> _vehicles = new List<Vehicle>();
+
+        /// <summary>
+        /// Représente la liste des véhicules à réparer
+        /// </summary>
+        private List<Vehicle> _vehicleAReparer = new List<Vehicle>();
+
+        /// <summary>
+        /// Représente les garagistes du garage
+        /// </summary>
+        private List<Garagiste> _garagistes = new List<Garagiste>();
+
+        /// <summary>
+        /// Constructeur d'un Garage
+        /// </summary>
+        /// <param name="siretDuGarage">Numéro Siret du garage</param>
+        public Garage(string siretDuGarage) : base(siretDuGarage)
         {
+
         }
-        #endregion
-        #region Method
-        public void AddCar(Car Car)
+
+        /// <summary>
+        /// Permet au garage de prendre en charge une voiture
+        /// </summary>
+        /// <param name="car">La voiture à réparer</param>
+        public void RecupererUnVehiculeAReparer(Vehicle vehicle)
         {
-            Cars.Add(Car);
-        }
-        public void RemoveCar(Car Car)
-        {
-            Cars.Remove(Car);
-        }
-        public void AddMechanic(Mechanic mechanic)
-        {
-            Mechanics.Add(mechanic);
-        }
-        public void RemoveMechanic(Mechanic mechanic)
-        {
-            Mechanics.Remove(mechanic);
-        }
-        public void AssignMechanic(Mechanic mechanic, Car car)
-        {
-            mechanic.AddCarMec(car);
-        }
-        public void Print()
-        {
-            Console.WriteLine($"Le numero de SIRET est : {SIRET}");
-            Console.WriteLine($"Le nom de l'entreprise est : {Name}");
-            Console.WriteLine("Liste des Voitures:");
-            Console.WriteLine("");
-            if (Cars.Count <= 0)
+            if (vehicle.AReparer)
             {
-                Console.WriteLine("Ce garage ne posséde pas de voiture.");
-                Console.WriteLine();
+                _vehicles.Add(vehicle);
             }
             else
             {
-                Console.WriteLine("Liste des Voitures:");
-                Console.WriteLine("");
-                for (int i = 0; i < Cars.Count; i++)
-                {
-                    Cars.ElementAt(i).PrintWithoutOwner();
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                }
+                Console.WriteLine("Le vehicule n'est pas à réparer.");
             }
         }
-        public void WithdrawCar(Garage garage, Car car, Customer customer,Mechanic mechanic)
+
+        /// <summary>
+        /// Permet la récuparation de la voiture par un client
+        /// </summary>
+        /// <param name="car">Voiture à récupérer</param>
+        /// <param name="client">Le client qui veut récupérer la voiture</param>
+        public void RecuperationDuVehiculeParLeClient(Vehicle vehicule, Client client)
         {
-            if (customer.Cars.Contains(car))
+            //Le client est-il le propriétaire du véhicule ?
+            if (vehicule.Owner != client)
             {
-                garage.Cars.Remove(car);
-                mechanic.RemoveCarMec(car);
+                Console.WriteLine("Vous n'êtes pasle propriétaire de la voiture.");
+                return; // break la fonction
+            }
+
+            // La voiture est finie ?
+            if (vehicule.AReparer)
+            {
+                Console.WriteLine("La voiture n'est pas prête.");
+                return; // break la fonction
+            }
+
+            Console.WriteLine($"Le client {client.Name} {client.FirstName} à récupéré le vehicule {vehicule.Registration}.");
+            _vehicles.Remove(vehicule);
+        }
+
+        /// <summary>
+        /// Permet d'engager un garagiste
+        /// </summary>
+        /// <param name="garagiste">Garagiste à engager</param>
+        public void EngagerUnGaragiste(Garagiste garagiste)
+        {
+            if (_garagistes.Contains(garagiste))
+            {
+                Console.WriteLine("Ce garagiste est déjà un salarié du garage !");
             }
             else
             {
-                Console.WriteLine("La voiture n'appartient pas au client");
+                _garagistes.Add(garagiste);
+                Console.WriteLine($"Le garagiste {garagiste.Name} {garagiste.FirstName} " +
+                    $"est maintenant disponible dans votre garage.");
             }
-            
         }
-        #endregion
+
+        /// <summary>
+        /// Permet de licencier un garagiste
+        /// </summary>
+        /// <param name="garagiste">Garagiste à licencier</param>
+        public void LicencierUnGaragiste(Garagiste garagiste)
+        {
+            if (_garagistes.Remove(garagiste))
+            {
+                Console.WriteLine($"Le garagiste {garagiste.Name} {garagiste.FirstName} " +
+                    $"n'est désormais plus disponible dans votre garage !");
+            }
+            else
+            {
+                Console.WriteLine($"Le garagiste {garagiste.Name} {garagiste.FirstName} " +
+                    $"n'est pas salarié de ce garage !");
+            }
+        }
+
+        /// <summary>
+        /// Permet d'assigner à un garagiste une voiture à réparer
+        /// </summary>
+        /// <param name="car">Voiture à réparer</param>
+        /// <param name="garagiste">Garagiste en charge de la voiture</param>
+        public void AssignerUnVehiculeUnGaragiste(Vehicle vehicle, Garagiste garagiste)
+        {
+            garagiste.AjouterUnVehiculeAReparer(vehicle);
+            vehicle.AjouterUnGaragiste(garagiste);
+        }
     }
 }

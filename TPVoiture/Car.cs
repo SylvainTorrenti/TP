@@ -3,129 +3,108 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPObjet;
+using TPVoiture;
 
-namespace TPVoiture
+namespace TPObjet
 {
     /// <summary>
-    /// class used to create cars
+    /// Représente une voiture
     /// </summary>
-    internal class Car
+    internal class Car : Vehicle, IDisposable
     {
-        #region Attributes
-        private static List<string> Registrations = new List<string>();
-        private string _Registration;
-        private string _Model;
-        private string _Brand;
-        private int _KLM;
-        private DateOnly _OriginalInServiceDate;
-        private int _Power;
-        private Person? _Owner; // "?" signifie que cet attribut peut être null
-        #endregion
-        #region Constructor
-        public Car(string registration, string model, string brand, int kLM, int power)
-        {         
-            if (Registrations.Contains(registration))
-            {
-                Registration = "";
-            }
-            else
-            {
-                Registration = registration;
-            }
-            Registrations.Add(registration);
-            //Registration = registration;
+
+        //public bool SearchRegistrationWithChar(string registration, char c)
+        //{
+        //    bool trouve = false;
+        //    for(int i = 0; i < Registration.Length; i++)
+        //    {
+        //        trouve = Registration[i] == c;
+        //        if(trouve ==true )  {
+        //            break;
+        //        }
+        //    }
+        //    return trouve;
+        //}
+
+        /// <summary>
+        /// Modèle de la voiture
+        /// </summary>
+        public string Model { get; private set; }
+
+        /// <summary>
+        /// Marque de la voiture
+        /// </summary>
+        public string Brand { get; private set; }
+
+        /// <summary>
+        /// Compteur kilométrique de la voiture
+        /// </summary>
+        public int KLM { get; private set; }
+
+        /// <summary>
+        /// Puissance de la voiture
+        /// </summary>
+        public int Power { get; private set; }
+
+        /// <summary>
+        /// Construsteur complet de la voiture 
+        /// </summary>
+        /// <param name="registration">Immatriculation</param>
+        /// <param name="model">Modèle</param>
+        /// <param name="brand">Marque</param>
+        /// <param name="kLM">Compteur kilométrique actuel de la voiture</param>
+        /// <param name="originalInServiceDate">Date de mise en service de la voiture</param>
+        /// <param name="power">Puissance de la voiture</param>
+        /// <param name="owner">Propriétaire de la voiture</param>
+        public Car(string registration, string model, string brand, int kLM, DateTime originalInServiceDate, int power, Person owner, bool aReparer, int damage) : base(originalInServiceDate, owner, aReparer, registration, damage)
+        {
             Model = model;
             Brand = brand;
             KLM = kLM;
             Power = power;
+
         }
-        #endregion
-        #region Get & Set Registration
+
         /// <summary>
-        /// Registartion of car
+        /// Récupére les informations de la voiture sous forme de chaîne de caractères
         /// </summary>
-        public string Registration { get => _Registration; set => _Registration = value; }
-        #endregion
-        #region Get & Set Model
-        /// <summary>
-        /// Model of car
-        /// </summary>
-        public string Model { get => _Model; set => _Model = value; }
-        #endregion
-        #region Get & Set Brand
-        /// <summary>
-        /// Brand of car
-        /// </summary>
-        public string Brand { get => _Brand; set => _Brand = value; }
-        #endregion
-        #region Get & Set KLM
-        /// <summary>
-        /// KLM of car
-        /// </summary>
-        public int KLM { get => _KLM; set => _KLM = value; }
-        #endregion
-        #region Get & Set OriginalInServiceDate
-        /// <summary>
-        /// OriginalInServiceDate of car
-        /// </summary>
-        public DateOnly OriginalInServiceDate { get => _OriginalInServiceDate; set => _OriginalInServiceDate = value; }
-        #endregion
-        #region Get & Set Power
-        /// <summary>
-        /// Power of car
-        /// </summary>
-        public int Power { get => _Power; set => _Power = value; }
-        #endregion
-        #region Get & Set Owner
-        /// <summary>
-        /// Owner of car
-        /// </summary>
-        internal Person? Owner { get => _Owner; private set => _Owner = value; }
-        #endregion
-        #region Method
-        /// <summary>
-        /// method for displaying Car information
-        /// </summary>
-        public void Print()
+        /// <returns>Les informations de la voiture</returns>
+        public string Print()
         {
-            Console.WriteLine($"Marque : {Brand}");
-            Console.WriteLine($"Model : {Model}");
-            Console.WriteLine($"Plaque d'immatricualtion : {Registration}");
-            Console.WriteLine($"Date de mise en service : {OriginalInServiceDate}");
-            Console.WriteLine($"Puissance : {Power}cv");
-            Console.WriteLine($"Kilométrage : {KLM} Km");
-            Console.Write($"Proprietaire : {Owner}");
-            Console.WriteLine();
+            if (Owner is not null)
+            {
+                return
+                    $"{Registration} ({Model} - {Brand}) :  {KLM} - {OriginalInServiceDate} - {Owner.Print()}";
+            }
+            else
+            {
+                return
+                     $"{Registration} ({Model} - {Brand}) :  {KLM} - {OriginalInServiceDate} - Pas de propriétaire";
+            }
         }
+
+
         /// <summary>
-        /// method for displaying Car information without owner
+        /// Permet de changer le propriétaire de la voiture
         /// </summary>
-        public void PrintWithoutOwner()
+        /// <param name="person">Nouveau propriétaire</param>
+        public void ChangementDeProprietaire(Person person)
         {
-            Console.WriteLine($"Marque : {Brand}");
-            Console.WriteLine($"Model : {Model}");
-            Console.WriteLine($"Plaque d'immatricualtion : {Registration}");
-            Console.WriteLine($"Date de mise en service : {OriginalInServiceDate}");
-            Console.WriteLine($"Puissance : {Power}cv");
-            Console.WriteLine($"Kilométrage : {KLM} Km");
+            if (Owner is not null)
+            {
+                Person oldOwner = Owner;
+                person.AcquisitionDunVehicule(this);
+                oldOwner.VenteDunVehicule(this);
+            }
         }
-        /// <summary>
-        /// Method to add owner
-        /// </summary>
-        /// <param name="person">Person who own car</param>
-        public void AddOwner(Person person)
+        public override void ReparationTime(Garagiste garagiste)
         {
-            this.Owner = person;
+            double Time;
+            Time = 1.5 * 2 - (garagiste.Skill / 100);
+            Console.WriteLine($"Il faut {Time} heure à {garagiste.FirstName} {garagiste.Name} pour réparer la {Brand}{Model}");
         }
-        /// <summary>
-        /// Method to remove owner
-        /// </summary>
-        /// <param name="person">Remove person form car ownership</param>
-        public void RemoveOwner()
-        {
-            Owner = null;
-        }
-        #endregion
-        
+
+
     }
 }
